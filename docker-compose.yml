@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  shopware:
+    image: dockware/essentials:latest
+    container_name: shopware
+    ports:
+      - "8000:80"
+      - "4306:3306"
+      - "22:22"
+      - "8888:8888"
+      - "9999:9999"
+      - "9998:9998"
+    networks:
+      - web
+    environment:
+      - XDEBUG_ENABLED=1
+    volumes:
+      - ./:/var/www/html
+      - db_volume:/var/lib/mysql
+
+volumes:
+  db_volume:
+    driver: local
+
+networks:
+  web:
+    external: false
