@@ -2,10 +2,10 @@ version: "3"
 
 services:
   shopware:
-    image: dockware/essentials:latest
+    image: dockware/dev:6.4.11.1
     container_name: shopware
     ports:
-      - "8000:80"
+      - "80:80"
       - "4306:3306"
       - "22:22"
       - "8888:8888"
@@ -22,11 +22,15 @@ services:
   elasticsearch:
     image: elasticsearch:7.17.4
     container_name: elasticsearch
+    ports:
+      - "9200:9200"
     networks:
       - web
     environment:
       - "EA_JAVA_OPTS=-Xms512m -Xms512m"
       - discovery.type=single-node
+    volumes:
+      - es_volume:/usr/share/elasticsearch/data
 
   redis:
     image: redis
@@ -36,6 +40,8 @@ services:
 
 volumes:
   db_volume:
+    driver: local
+  es_volume:
     driver: local
 
 networks:
